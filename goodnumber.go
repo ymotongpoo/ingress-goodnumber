@@ -1,4 +1,4 @@
-package main
+package ingress_goodnumber
 
 import (
 	"encoding/json"
@@ -50,9 +50,8 @@ type RestActionResponse struct {
 	Recharge      uint
 }
 
-func main() {
+func init() {
 	http.HandleFunc("/", handler)
-	http.ListenAndServe(":8080", nil)
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
