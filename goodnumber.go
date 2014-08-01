@@ -3,12 +3,48 @@ package ingress_goodnumber
 import (
 	"encoding/json"
 	"fmt"
-	_ "log"
 	"math"
 	"net/http"
+
+	"appengine"
 )
 
-const pageTemplate = `<html><h1>Ingress good number`
+const pageTemplate = `<!doctype html>
+<html>
+  <head>
+    <title>Ingress good number</title>
+    <script type="text/javascript">
+    <!--
+    function postAp() {
+      var ap = parseInt(document.getElementById("ap").value);
+      var data = { "ap": ap };
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", "/", true)
+      xhr.onreadystatechange = function() {
+        var result = document.getElementById("result");
+        if ( xhr.readyState === 4 && xhr.status === 200 ) {
+          var action = JSON.parse(xhr.responseText);
+          for (var x in action) {
+             result.innerHTML += x + " : " + action[x] + "<br/>";
+          }
+        } else if ( xhr.readyState === 4 && xhr.status === 0 ) {
+          result.innerHTML = "not http";
+        }
+      }
+      xhr.send(JSON.stringify(data));
+    }
+    -->
+    </script>
+  </head>
+  <body>
+    <h1>Ingress good number</h1>
+    <div>
+      AP: <input type="text" id="ap" /><input type="button" value="check" onclick="postAp()" />
+      </form>
+    </div>
+    <div id="result"><div>
+  </body>
+</html>`
 
 const (
 	generatorCap = 10
@@ -36,18 +72,19 @@ type StatusRequest struct {
 }
 
 type RestActionResponse struct {
-	FullDeploy    uint
-	CreateCF      uint
-	DestroyCF     uint
-	CapturePortal uint
-	CompPortal    uint
-	CreateLink    uint
-	DestroyLink   uint
-	PlaceRes      uint
-	Hack          uint
-	DestroyRes    uint
-	UpgradeRes    uint
-	Recharge      uint
+	Target        uint `json:"target"`
+	FullDeploy    uint `json:"full deploy"`
+	CreateCF      uint `json:"create control field"`
+	DestroyCF     uint `json:"destropy control field"`
+	CapturePortal uint `json:"capture portal"`
+	CompPortal    uint `json:"complete portal"`
+	CreateLink    uint `json:"create link"`
+	DestroyLink   uint `json:"destroy link"`
+	PlaceRes      uint `json:"place resonator"`
+	Hack          uint `json:"hack portal"`
+	DestroyRes    uint `json:"destroy resonator"`
+	UpgradeRes    uint `json:"upgrade resonator"`
+	Recharge      uint `json:"recharge"`
 }
 
 func init() {
@@ -71,17 +108,45 @@ func getHandler(w http.ResponseWriter, r *http.Request) {
 
 func postHandler(w http.ResponseWriter, r *http.Request) {
 	decoder := json.NewDecoder(r.Body)
+	c := appengine.NewContext(r)
+
 	var status StatusRequest
 	err := decoder.Decode(&status)
 	if err != nil {
 		message := fmt.Sprintf("An error occured during parsing: %v", err)
 		http.Error(w, message, 400)
+		c.Errorf("%v", message)
 		return
 	}
 	gn := genGoodNumbers(status.AP)
+	c.Infof("AP: %v", status.AP)
 	target := <-gn
 	pattern := findPattern(status.AP, target)
-	fmt.Fprintf(w, "AP: %v, target: %v, pattern: %v", status.AP, target, pattern)
+	action := NewRestActionResoponse(target, pattern)
+	resp, err := json.Marshal(action)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		c.Errorf("%v", err.Error())
+		return
+	}
+	fmt.Fprintf(w, "%v", string(resp))
+}
+
+func NewRestActionResoponse(target uint, pattern map[uint]uint) *RestActionResponse {
+	return &RestActionResponse{
+		Target:        target,
+		FullDeploy:    pattern[1750],
+		CreateCF:      pattern[1563],
+		DestroyCF:     pattern[1199],
+		CapturePortal: pattern[625],
+		CompPortal:    pattern[375],
+		CreateLink:    pattern[313],
+		PlaceRes:      pattern[125],
+		Hack:          pattern[100],
+		DestroyRes:    pattern[75],
+		UpgradeRes:    pattern[65],
+		Recharge:      pattern[10],
+	}
 }
 
 func genGoodNumbers(ap uint) <-chan uint {
