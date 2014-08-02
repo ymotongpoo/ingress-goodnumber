@@ -1,4 +1,4 @@
-package ingress_goodnumber
+package ingressgoodnumber
 
 import (
 	"encoding/json"
@@ -13,33 +13,13 @@ const pageTemplate = `<!doctype html>
 <html>
   <head>
     <title>Ingress good number</title>
-    <script type="text/javascript">
-    <!--
-    function postAp() {
-      var ap = parseInt(document.getElementById("ap").value);
-      var data = { "ap": ap };
-      var xhr = new XMLHttpRequest();
-      xhr.open("POST", "/", true)
-      xhr.onreadystatechange = function() {
-        var result = document.getElementById("result");
-        if ( xhr.readyState === 4 && xhr.status === 200 ) {
-          var action = JSON.parse(xhr.responseText);
-          for (var x in action) {
-             result.innerHTML += x + " : " + action[x] + "<br/>";
-          }
-        } else if ( xhr.readyState === 4 && xhr.status === 0 ) {
-          result.innerHTML = "not http";
-        }
-      }
-      xhr.send(JSON.stringify(data));
-    }
-    -->
-    </script>
+    <script type="text/javascript" src="/main.js"></script>
+    <script type="text/css" src="/main.css"></script>
   </head>
   <body>
     <h1>Ingress good number</h1>
     <div>
-      AP: <input type="text" id="ap" /><input type="button" value="check" onclick="postAp()" />
+      Your current AP: <input type="text" id="ap" /><input type="button" value="check" onclick="postAp()" />
       </form>
     </div>
     <div id="result"><div>
@@ -67,10 +47,12 @@ var apGain = []uint{
 	10,   // Recharge a portal
 }
 
+// StatusRequest is a struct defining input data.
 type StatusRequest struct {
 	AP uint `json:"ap"`
 }
 
+// RestActionResponse is a struct defining output data to client.
 type RestActionResponse struct {
 	Target        uint `json:"target"`
 	FullDeploy    uint `json:"full deploy"`
@@ -122,7 +104,7 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 	c.Infof("AP: %v", status.AP)
 	target := <-gn
 	pattern := findPattern(status.AP, target)
-	action := NewRestActionResoponse(target, pattern)
+	action := NewRestActionResponse(target, pattern)
 	resp, err := json.Marshal(action)
 	if err != nil {
 		http.Error(w, err.Error(), 500)
@@ -132,7 +114,8 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "%v", string(resp))
 }
 
-func NewRestActionResoponse(target uint, pattern map[uint]uint) *RestActionResponse {
+// NewRestActionResponse converts AP list into a struct.
+func NewRestActionResponse(target uint, pattern map[uint]uint) *RestActionResponse {
 	return &RestActionResponse{
 		Target:        target,
 		FullDeploy:    pattern[1750],
@@ -213,9 +196,8 @@ func findPattern(ap, target uint) map[uint]uint {
 			result[p-track[p]]++
 		}
 		return result
-	} else {
-		return createCounterMap()
 	}
+	return createCounterMap()
 }
 
 // Find order of exponent
@@ -255,23 +237,18 @@ func min3(x, y, z uint) (uint, uint, uint) {
 		if x < z {
 			if y < z {
 				return x, y, z
-			} else {
-				return x, z, y
 			}
-		} else {
-			return z, x, y
+			return x, z, y
 		}
-	} else {
-		if z < x {
-			if z < y {
-				return z, y, x
-			} else {
-				return y, z, x
-			}
-		} else {
-			return y, x, z
-		}
+		return z, x, y
 	}
+	if z < x {
+		if z < y {
+			return z, y, x
+		}
+		return y, z, x
+	}
+	return y, x, z
 }
 
 func createCounterMap() map[uint]uint {
