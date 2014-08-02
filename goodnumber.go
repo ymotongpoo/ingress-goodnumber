@@ -13,8 +13,9 @@ const pageTemplate = `<!doctype html>
 <html>
   <head>
     <title>Ingress good number</title>
+	<link href='http://fonts.googleapis.com/css?family=Coda:400,800' rel='stylesheet' type='text/css'>
+	<script type="text/css" src="/main.css"></script>
     <script type="text/javascript" src="/main.js"></script>
-    <script type="text/css" src="/main.css"></script>
   </head>
   <body>
     <h1>Ingress good number</h1>
