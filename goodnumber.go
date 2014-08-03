@@ -12,16 +12,15 @@ import (
 const pageTemplate = `<!doctype html>
 <html>
   <head>
-    <title>Ingress good number</title>
-	<link href='http://fonts.googleapis.com/css?family=Coda:400,800' rel='stylesheet' type='text/css'>
-	<script type="text/css" src="/main.css"></script>
+    <title>Ingress Good Number</title>
+	<link rel="stylesheet" type="text/css" href="/main.css" />
     <script type="text/javascript" src="/main.js"></script>
   </head>
   <body>
-    <h1>Ingress good number</h1>
-    <div>
-      Your current AP: <input type="text" id="ap" /><input type="button" value="check" onclick="postAp()" />
-      </form>
+    <h1>Ingress Good Number</h1>
+	<p>"Ingress Good Number" tell you minimum actions to achieve "good number" APs, such as rounded numbers, straight numbers, and repeated numbers.</p>
+    <div id='apinput'>
+      Your current AP: <input type="text" id="ap" /><input type="button" value="check" onclick="goodnumber.postAp()" />
     </div>
     <div id="result"><div>
   </body>

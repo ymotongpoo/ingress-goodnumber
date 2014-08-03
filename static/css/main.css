@@ -1,3 +1,42 @@
+@import url(http://fonts.googleapis.com/css?family=Coda:400,800);
+
 body {
     font-family: 'Coda', cursive;
+    font-weight: 400;
+    background-color: #000;
+}
+
+p { color: #ffcc33; }
+
+h1 {
+    font-weight: 800;
+    color: #ffcc33;
+}
+
+#apinput {
+    color: #3cb371;
+}
+
+table {
+    color: #ffffff;
+    border: 0px;
+    margin-top: 20px;
+    width: 300px;
+}
+
+.header {
+    font-weight: 400;
+    text-align: left;
+    color: #ffcc33;
+    background: -webkit-gradient(linear, left top, right bottom, from(#996633), to(#332211));
+}
+
+.action {
+    color: #3cb371;
+    width: 200px;
+}
+
+.count {
+    color: #ffcc33;
+    text-align: right;
 }
