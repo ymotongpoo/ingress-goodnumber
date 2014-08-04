@@ -40,3 +40,19 @@ table {
     color: #ffcc33;
     text-align: right;
 }
+
+input#ap {
+    border: solid 1px #339999;
+    background: #000000;
+    color: #ffffff;
+    height: 20px;
+    margin-right: 0px;
+}
+
+input#checkBtn {
+    border: solid 1px #ffcc33;
+    background: #556b2f;
+    color: #ffcc33;
+    height: 20px;
+    margin-left: 0px;
+}

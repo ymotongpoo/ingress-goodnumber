@@ -20,7 +20,7 @@ const pageTemplate = `<!doctype html>
     <h1>Ingress Good Number</h1>
 	<p>"Ingress Good Number" tell you minimum actions to achieve "good number" APs, such as rounded numbers, straight numbers, and repeated numbers.</p>
     <div id='apinput'>
-      Your current AP: <input type="text" id="ap" /><input type="button" value="check" onclick="goodnumber.postAp()" />
+      Your current AP: <input type="text" id="ap" /><input type="button" value="check" id="checkBtn" onclick="goodnumber.postAp()" />
     </div>
     <div id="result"><div>
   </body>
