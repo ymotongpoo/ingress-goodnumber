@@ -8,6 +8,12 @@ var goodnumber = {};
         xhr.open("POST", "/", true)
         xhr.onreadystatechange = function() {
             var result = document.getElementById("result");
+
+            var resultTable = document.getElementById("resultTable");
+            if ( resultTable != undefined ) {
+                result.removeChild(resultTable);
+            }
+
             if ( xhr.readyState === 4 && xhr.status === 200 ) {
                 var actionData = JSON.parse(xhr.responseText);
                 table = goodnumber.createActionTable(actionData);
@@ -21,6 +27,7 @@ var goodnumber = {};
 
     goodnumber.createActionTable = function(data) {
         var table = document.createElement('table');
+        table.setAttribute('id', 'resultTable');
         var headerTr = document.createElement('tr');
         var headerAction = document.createElement('th');
         headerAction.setAttribute('class', 'header');
