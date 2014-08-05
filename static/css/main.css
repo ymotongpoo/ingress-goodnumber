@@ -8,6 +8,14 @@ body {
     background-color: #000;
 }
 
+@media screen and (max-width: 480px) {
+    #contents { width: 100%; }
+}
+
+@media screen and (min-width: 480px) {
+    #contents { width: 480px; }
+}
+
 p { color: #ffcc33; }
 
 h1 {
@@ -27,11 +35,12 @@ table {
 }
 
 .header {
-    font-weight: 400;
     text-align: left;
     color: #ffcc33;
-    background: -webkit-gradient(linear, left top, right bottom, from(#996633), to(#332211));
+    background: linear-gradient(to right, #996633, #332211);
 }
+
+th { font-weight: 400; }
 
 .action {
     color: #339999;

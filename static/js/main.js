@@ -30,7 +30,7 @@ var goodnumber = {};
         table.setAttribute('id', 'resultTable');
         var headerTr = document.createElement('tr');
         var headerAction = document.createElement('th');
-        headerAction.setAttribute('class', 'header');
+        headerTr.setAttribute('class', 'header');
         headerAction.setAttribute('colspan', 2);
         headerAction.innerHTML = "Action";
         headerTr.appendChild(headerAction);

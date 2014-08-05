@@ -17,12 +17,14 @@ const pageTemplate = `<!doctype html>
     <script type="text/javascript" src="/main.js"></script>
   </head>
   <body>
-    <h1>Ingress Good Number</h1>
-	<p>"Ingress Good Number" tell you minimum actions to achieve "good number" APs, such as rounded numbers, straight numbers, and repeated numbers.</p>
-    <div id='apinput'>
-      Your current AP: <input type="text" id="ap" /><input type="button" value="check" id="checkBtn" onclick="goodnumber.postAp()" />
-    </div>
-    <div id="result"><div>
+    <div id="contents">
+      <h1>Ingress Good Number</h1>
+      <p>"Ingress Good Number" tell you minimum actions to achieve "good number" APs, such as rounded numbers, straight numbers, and repeated numbers.</p>
+      <div id='apinput'>
+        Your current AP: <input type="text" id="ap" /><input type="button" value="check" id="checkBtn" onclick="goodnumber.postAp()" />
+      </div>
+      <div id="result"><div>
+	</div>
   </body>
 </html>`
 
@@ -33,6 +35,7 @@ const (
 )
 
 var apGain = []uint{
+	2813, // Create double CF
 	1750, // Full deploy
 	1563, // Create a CF
 	1199, // Destroy a CF
@@ -54,19 +57,20 @@ type StatusRequest struct {
 
 // RestActionResponse is a struct defining output data to client.
 type RestActionResponse struct {
-	Target        uint `json:"target"`
-	FullDeploy    uint `json:"full deploy"`
-	CreateCF      uint `json:"create control field"`
-	DestroyCF     uint `json:"destropy control field"`
-	CapturePortal uint `json:"capture portal"`
-	CompPortal    uint `json:"complete portal"`
-	CreateLink    uint `json:"create link"`
-	DestroyLink   uint `json:"destroy link"`
-	PlaceRes      uint `json:"place resonator"`
-	Hack          uint `json:"hack portal"`
-	DestroyRes    uint `json:"destroy resonator"`
-	UpgradeRes    uint `json:"upgrade resonator"`
-	Recharge      uint `json:"recharge"`
+	Target         uint `json:"target"`
+	CreateDoubleCF uint `json:"create double control field"`
+	FullDeploy     uint `json:"full deploy"`
+	CreateCF       uint `json:"create control field"`
+	DestroyCF      uint `json:"destropy control field"`
+	CapturePortal  uint `json:"capture portal"`
+	CompPortal     uint `json:"complete portal"`
+	CreateLink     uint `json:"create link"`
+	DestroyLink    uint `json:"destroy link"`
+	PlaceRes       uint `json:"place resonator"`
+	Hack           uint `json:"hack portal"`
+	DestroyRes     uint `json:"destroy resonator"`
+	UpgradeRes     uint `json:"upgrade resonator"`
+	Recharge       uint `json:"recharge"`
 }
 
 func init() {
@@ -117,18 +121,19 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 // NewRestActionResponse converts AP list into a struct.
 func NewRestActionResponse(target uint, pattern map[uint]uint) *RestActionResponse {
 	return &RestActionResponse{
-		Target:        target,
-		FullDeploy:    pattern[1750],
-		CreateCF:      pattern[1563],
-		DestroyCF:     pattern[1199],
-		CapturePortal: pattern[625],
-		CompPortal:    pattern[375],
-		CreateLink:    pattern[313],
-		PlaceRes:      pattern[125],
-		Hack:          pattern[100],
-		DestroyRes:    pattern[75],
-		UpgradeRes:    pattern[65],
-		Recharge:      pattern[10],
+		Target:         target,
+		CreateDoubleCF: pattern[2813],
+		FullDeploy:     pattern[1750],
+		CreateCF:       pattern[1563],
+		DestroyCF:      pattern[1199],
+		CapturePortal:  pattern[625],
+		CompPortal:     pattern[375],
+		CreateLink:     pattern[313],
+		PlaceRes:       pattern[125],
+		Hack:           pattern[100],
+		DestroyRes:     pattern[75],
+		UpgradeRes:     pattern[65],
+		Recharge:       pattern[10],
 	}
 }
 
