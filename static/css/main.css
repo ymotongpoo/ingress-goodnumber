@@ -38,6 +38,8 @@ table {
     text-align: left;
     color: #ffcc33;
     background: linear-gradient(to right, #996633, #332211);
+    border: 1px;
+    border-color: #ffcc33 #000000;
 }
 
 th { font-weight: 400; }
@@ -66,4 +68,15 @@ input#checkBtn {
     color: #ffcc33;
     height: 20px;
     margin-left: 0px;
+}
+
+#footer-note {
+    color: #ffffff;
+    font-size: small;
+    font-weight: 400;
+    margin-top: 10px
+}
+
+.note {
+    font-weight: bold;
 }
