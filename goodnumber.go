@@ -19,13 +19,13 @@ const pageTemplate = `<!doctype html>
   <body>
     <div id="contents">
       <h1>Ingress Good Number</h1>
-      <p>"Ingress Good Number" tell you minimum actions to achieve "good number" APs, such as rounded numbers, straight numbers, and repeated numbers.</p>
+      <p>"Ingress Good Number" tells you minimum actions to achieve "good number" APs, such as rounded numbers, straight numbers, and repeated numbers.</p>
       <div id='apinput'>
         Your current AP: <input type="text" id="ap" /><input type="button" value="check" id="checkBtn" onclick="goodnumber.postAp()" />
       </div>
       <div id="result"><div>
 	</div>
-	<div id="footer-note"><span class="note">Note:</span>If you created double control field by accident, try making additional link, then your actions are counted as creating normal 2 CFs.</div>
+	<div id="footer-note"><span class="note">Note: </span>If you created double control field by accident, try making additional link, then your actions are counted as creating normal 2 CFs.</div>
   </body>
 </html>`
 
